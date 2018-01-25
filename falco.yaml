@@ -8,11 +8,11 @@
 # The files will be read in the order presented here, so make sure if
 # you have overrides they appear in later files.
 rules_file:
- - /etc/falco/falco_rules.yaml
- - /etc/falco/falco_rules.local.yaml
+ - /home/jesun/go/src/sysdig/falco/falco_rules.yaml
+ - /home/jesun/go/src/sysdig/falco/falco_rules.local.yaml
 
 # Whether to output events in json or text
-json_output: false
+json_output: true
 
 # Send information logs to stderr and/or syslog Note these are *not* security
 # notification logs! These are just Falco lifecycle (and possibly error) logs.
@@ -33,7 +33,7 @@ priority: debug
 
 # Whether or not output to any of the output channels below is
 # buffered. Defaults to true
-buffered_outputs: true
+buffered_outputs: false
 
 # A throttling mechanism implemented as a token bucket limits the
 # rate of falco notifications. This throttling is controlled by the following configuration
@@ -55,19 +55,20 @@ outputs:
 # Multiple outputs can be enabled.
 
 syslog_output:
-  enabled: true
-
-# If keep_alive is set to true, the file will be opened once and
-# continuously written to, with each output message on its own
-# line. If keep_alive is set to false, the file will be re-opened
-# for each output message.
-file_output:
   enabled: false
-  keep_alive: false
-  filename: ./events.txt
+
+# Possible filename values:
+#   - Real absolute static log file name
+#         /var/log/falco/events/error.log
+#   - Absolute rolling log file name with os.date supported placeholders: https://www.lua.org/pil/22.1.html
+#         /var/log/falco/events/%Y%m%d%H.log
+# Either way please make sure the parent folder exists
+file_output:
+  enabled: true
+  filename: /var/log/falco/events/%Y%m%d%H.log
 
 stdout_output:
-  enabled: true
+  enabled: false
 
 # Possible additional things you might want to do with program output:
 #   - send to a slack webhook:

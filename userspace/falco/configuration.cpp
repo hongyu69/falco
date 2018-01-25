@@ -72,16 +72,13 @@ void falco_configuration::init(string conf_filename, list<string> &cmdline_optio
 	file_output.name = "file";
 	if (m_config->get_scalar<bool>("file_output", "enabled", false))
 	{
-		string filename, keep_alive;
+		string filename;
 		filename = m_config->get_scalar<string>("file_output", "filename", "");
 		if (filename == string(""))
 		{
 			throw invalid_argument("Error reading config file (" + m_config_file + "): file output enabled but no filename in configuration block");
 		}
 		file_output.options["filename"] = filename;
-
-		keep_alive = m_config->get_scalar<string>("file_output", "keep_alive", "");
-		file_output.options["keep_alive"] = keep_alive;
 
 		m_outputs.push_back(file_output);
 	}

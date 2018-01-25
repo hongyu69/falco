@@ -33,36 +33,21 @@ end
 
 function mod.file_validate(options)
    if (not type(options.filename) == 'string') then
-      error("File output needs to be configured with a valid filename")
+      error("File output needs to be configured with a valid filename or pattern")
    end
 
-   local file, err = io.open(options.filename, "a+")
+   local file, err = io.open(os.date(options.filename), "a+")
    if file == nil then
       error("Error with file output: "..err)
    end
-   file:close()
 
+   file:close()
 end
 
 function mod.file(priority, priority_num, buffered, msg, options)
-   if options.keep_alive == "true" then
-      if file == nil then
-	 file = io.open(options.filename, "a+")
-	 if buffered == 0 then
-	    file:setvbuf 'no'
-	 end
-      end
-   else
-      file = io.open(options.filename, "a+")
-   end
-
+   file = io.open(os.date(options.filename), "a+")
    file:write(msg, "\n")
-
-   if options.keep_alive == nil or
-      options.keep_alive ~= "true" then
-	 file:close()
-	 file = nil
-   end
+   file:close()
 end
 
 function mod.file_cleanup()

@@ -8,8 +8,8 @@
 # The files will be read in the order presented here, so make sure if
 # you have overrides they appear in later files.
 rules_file:
- - /home/jesun/go/src/sysdig/falco/falco_rules.yaml
- - /home/jesun/go/src/sysdig/falco/falco_rules.local.yaml
+ - /etc/falco/falco_rules.yaml
+ - /etc/falco/falco_rules.local.yaml
 
 # Whether to output events in json or text
 json_output: true
